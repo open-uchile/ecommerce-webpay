@@ -10,15 +10,16 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build Docker image
-        run: docker build . --tag eoluchile/ecommerce-webpay:${GITHUB_SHA}
+        run: docker build . --tag open-uchile/ecommerce-webpay:${GITHUB_SHA}
 
       - name: Run tests
-        run: docker run eoluchile/ecommerce-webpay:${GITHUB_SHA} bash -c "pip install pytest && pytest"
+        run: docker run open-uchile/ecommerce-webpay:${GITHUB_SHA} bash -c "pip install pytest && pytest"
 
       - name: Push to Github Container Registry
         run: |
-          echo "${CR_PAT}" | docker login ghcr.io -u eolito --password-stdin
-          docker tag eoluchile/ecommerce-webpay:${GITHUB_SHA} ghcr.io/eol-uchile/ecommerce-webpay:${GITHUB_SHA}
-          docker push ghcr.io/eol-uchile/ecommerce-webpay:${GITHUB_SHA}
+          echo "${CR_PAT}" | docker login ghcr.io -u open-eol --password-stdin
+          docker tag open-uchile/ecommerce-webpay:${GITHUB_SHA} ghcr.io/open-uchile/ecommerce-webpay:${GITHUB_SHA}
+          docker push ghcr.io/open-uchile/ecommerce-webpay:${GITHUB_SHA}
         env:
           CR_PAT: ${{ secrets.CR_PAT }}
+          
